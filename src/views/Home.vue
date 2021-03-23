@@ -1,5 +1,5 @@
 <template>
-  <div class="home mt-10 mr-10 ml-10">
+  <div class="home mt-10 mr-10 ml-10 mb-15">
     <v-row justify="end" class="mr-10">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -7,7 +7,9 @@
         </template>
         <v-list>
           <v-list-item v-for="(source, index) in sources" :key="index">
-            <v-list-item-title>{{ sources.id }}</v-list-item-title>
+            <v-list-item-title @click="selectSource(source.id)">{{
+              source.id
+            }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -37,6 +39,9 @@
             height="200px"
             gradient=" rgba(0,0,0,0.2), rgba(0,0,0,0.4)"
           >
+            <span class="my-span">
+              {{ headline.source.name }}
+            </span>
           </v-img>
 
           <v-card-title class="black--text">
@@ -44,14 +49,16 @@
               {{ headline.title.slice(0, 70) }}
             </h5>
           </v-card-title>
-          <v-card-subtitle class="text black--text" v-if="headline.description">
-            {{ headline.description.slice(0, 70) }}...
+          <v-card-subtitle class="text black--text font-weight-light" v-if="headline">
+             {{ headline.publishedAt.split('T')[0]}}
           </v-card-subtitle>
           <v-spacer></v-spacer>
           <v-card-actions>
             <v-btn color="blue lighten-2" text @click="readMore(headline)">
               Read more
             </v-btn>
+            <v-spacer></v-spacer>
+            <v-icon @click="dialog = true">mdi-dots-vertical</v-icon>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -60,7 +67,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import moment from "moment";
 import axios from "axios";
 export default {
   data() {
@@ -70,15 +77,21 @@ export default {
       API_KEY: "16ef75bed2ae4af7a9ca74bfabe604d3",
       headlines: null,
       sources: null,
+      selectedSource: null,
+      dialog: false,
     };
   },
   created() {
     this.getHeadlines();
     this.getSources();
-        // const today = moment().format('YYYY-MM-DD');
+    // const today = moment().format('YYYY-MM-DD');
 
   },
-  computed: {},
+  computed: {
+    date(){
+      this.headlines.articles
+    }
+  },
   updated() {
     this.headlines = this.$store.state.headlines;
   },
@@ -111,9 +124,19 @@ export default {
           console.log("Sources : ", this.sources);
         });
     },
-    filter() {
-      // X.filter((select: any) => select.channelType === 'voice');
+    selectSource(source) {
+      // console.log(this.headlines);
+      // this.headlines.article.filter((select) => select.source.id === source);
     },
   },
 };
 </script>
+<style>
+.my-span {
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  margin-right: 0;
+  float: right;
+}
+</style>
