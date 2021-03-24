@@ -70,44 +70,47 @@
         v-if="loading"
       ></v-progress-circular>
     </v-row>
-    <v-dialog  v-model="dialog" max-width="500px">
-          <v-card>
-            <v-card-title> Edit title </v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model="headlines.articles[selectedIndex].title"
-                :rules="nameRules"
-                :counter="100"
-                label="Title"
-                required
-              ></v-text-field>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="primary" text @click="dialog = false"> Save </v-btn>
-            </v-card-actions>
-          </v-card>
-    </v-dialog>
+    <div v-if="selectedIndex">
+      <v-dialog v-model="dialog" max-width="500px">
+        <v-card>
+          <v-card-title> Edit title </v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="headlines.articles[selectedIndex].title"
+              :rules="nameRules"
+              :counter="100"
+              label="Title"
+              required
+            ></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" text @click="dialog = false"> Save </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
+// import moment from "moment";
 import axios from "axios";
 export default {
   data() {
     return {
       text: "",
       loading: false,
-      API_KEY: "16ef75bed2ae4af7a9ca74bfabe604d3",
+      API_KEY: "099148be22804e849a0c6fe022b7cf5e",
       headlines: null,
       sources: null,
       selectedSource: null,
       dialog: false,
       nameRules: [
-        v => !!v || 'Title is required',
-        v => v.length <= 100 || 'Title must be less than 100 characters',
+        (v) => !!v || "Title is required",
+        (v) => v.length <= 100 || "Title must be less than 100 characters",
       ],
-      selectedIndex: null
+      selectedIndex: null,
+      history: [],
     };
   },
   created() {
@@ -136,6 +139,20 @@ export default {
     },
     readMore(headline) {
       console.log("param is ", headline);
+      const date = new Date();
+      console.log("headline.title ", headline.title);
+      console.log("date ", date);
+
+
+      const data = {
+        title: headline.title,
+        date: date
+      }
+
+      this.history.push(data);
+
+      localStorage.setItem("history", JSON.stringify(this.history));
+
       this.$router.push({
         name: "Read",
         params: { headline: headline },
@@ -158,10 +175,10 @@ export default {
         this.loading = false;
       }
     },
-    editTitle(index){
+    editTitle(index) {
       this.dialog = true;
       this.selectedIndex = index;
-    }
+    },
   },
 };
 </script>
