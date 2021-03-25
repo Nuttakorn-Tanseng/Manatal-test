@@ -94,7 +94,7 @@
 
           <v-card-title class="black--text" @click="readMore(headline)">
             <h5 v-if="headline.title" class="font-weight-medium">
-              {{ headline.title.slice(0, 70) }}..
+              {{ headline.title.slice(0, 120) }}..
             </h5>
           </v-card-title>
           <v-card-subtitle
