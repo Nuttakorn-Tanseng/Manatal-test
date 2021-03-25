@@ -1,5 +1,6 @@
 <template>
   <div class="home mt-10 mr-10 ml-10 mb-15">
+    <NavBar />
     <v-row class="">
       <v-col cols="4"> </v-col>
       <v-col cols="4">
@@ -31,7 +32,7 @@
           text-color="white"
           @click:close="resetHeadlines()"
         >
-          {{selectedSource}}
+          {{ selectedSource }}
         </v-chip>
       </v-col>
     </v-row>
@@ -105,9 +106,13 @@
 </template>
 
 <script>
-// import moment from "moment";
+import NavBar from "../components/NavBar.vue";
 import axios from "axios";
 export default {
+  components: {
+    NavBar,
+  },
+
   data() {
     return {
       text: "",
@@ -158,9 +163,14 @@ export default {
         title: headline.title,
         date: date,
       };
+      
+      if(JSON.parse(localStorage.getItem("history")) != null){
+          this.history = JSON.parse(localStorage.getItem("history"));
+      }
 
       this.history.push(data);
 
+      localStorage.setItem("history", JSON.stringify(this.history));
 
       this.$router.push({
         name: "Read",
@@ -191,10 +201,10 @@ export default {
       this.dialog = true;
       this.selectedIndex = index;
     },
-    resetHeadlines(){
+    resetHeadlines() {
       this.selectedSource = false;
       location.reload();
-    }
+    },
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="mt-15 mb-15">
+    <NavBar />
     <v-row justify="end" class="mr-15 mb-5">
       <h3 class="font-weight-light">Source : {{ headline.source.name }}</h3>
     </v-row>
@@ -30,7 +31,11 @@
         >
           <div class="font-weight-light body-2">{{ headline.description }}</div>
         </v-row>
-        <v-row v-if="!headline.content" justify="start" class="pt-5 pb-5 pl-5 mt-15">
+        <v-row
+          v-if="!headline.content"
+          justify="start"
+          class="pt-5 pb-5 pl-5 mt-15"
+        >
           <h3 class="font-weight-medium">Content unavaiable</h3>
           <span
             >The centent is no longer available because there's no data from
@@ -45,16 +50,25 @@
         </v-row>
       </v-col>
       <v-col cols="4">
-          <a href="https://www.manatal.com/">
-          <v-img  class="ml-16 mt-15" width="30%" src="https://tpc.googlesyndication.com/daca_images/simgad/10965223439829523289"></v-img>   
-          </a>
+        <a href="https://www.manatal.com/">
+          <v-img
+            class="ml-16 mt-15"
+            width="30%"
+            src="https://tpc.googlesyndication.com/daca_images/simgad/10965223439829523289"
+          ></v-img>
+        </a>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import NavBar from "../components/NavBar.vue";
+
 export default {
+  components: {
+    NavBar,
+  },
   data() {
     return {
       headline: null,
@@ -70,9 +84,6 @@ export default {
     }
     console.log(this.$route.params.headline);
   },
-  mounted() {},
-  updated() {},
-  methods: {},
 };
 </script>
 

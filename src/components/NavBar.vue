@@ -4,9 +4,7 @@
       <v-icon size="50px" color="grey-1">mdi-newspaper</v-icon>
       <h2 class="font-weight-light ml-3 white--text">News</h2>
     </div>
-
     <v-spacer></v-spacer>
-
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" dark text small>
@@ -19,9 +17,11 @@
           ><center><h3>History</h3></center></v-list-item-title
         >
         <v-list-item v-for="(data, index) in history" :key="index">
-          <v-list-item-title>{{ data.title.slice(0, 50) }}</v-list-item-title>
+          <v-list-item-title
+            >{{ data.date.split("T")[0] }} :
+            {{ data.title.slice(0, 50) }}</v-list-item-title
+          >
         </v-list-item>
-        <!-- <v-divider></v-divider> -->
         <v-list-item-title @click="clearHistory()"
           ><center><a>clear</a></center></v-list-item-title
         >
@@ -44,9 +44,9 @@ export default {
     };
   },
   created() {
+    this.getHistory();
   },
-  updated() {
-  },
+  updated() {},
   methods: {
     homebtn() {
       console.log("go to home page");
@@ -55,7 +55,11 @@ export default {
       });
     },
     clearHistory() {
-      
+      localStorage.clear();
+      location.reload();
+    },
+    getHistory() {
+      this.history = JSON.parse(localStorage.getItem("history"));
     },
   },
 };
