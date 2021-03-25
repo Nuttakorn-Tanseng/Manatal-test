@@ -20,8 +20,8 @@
         >
         <v-list-item v-for="(data, index) in history" :key="index">
           <v-list-item-title>{{ data.title.slice(0, 50) }}</v-list-item-title>
-          <v-divider></v-divider>
         </v-list-item>
+        <!-- <v-divider></v-divider> -->
         <v-list-item-title @click="clearHistory()"
           ><center><a>clear</a></center></v-list-item-title
         >
@@ -43,11 +43,11 @@ export default {
       history: null,
     };
   },
-   created() {
-    this.history = JSON.parse( localStorage.getItem("history"));
+  created() {
+    this.history = JSON.parse(localStorage.getItem("history"));
   },
-   updated() {
-    this.history = JSON.parse( localStorage.getItem("history"));
+  updated() {
+    this.history = JSON.parse(localStorage.getItem("history"));
   },
   methods: {
     homebtn() {
@@ -59,7 +59,6 @@ export default {
     clearHistory() {
       localStorage.clear();
       this.history = null;
-
     },
   },
 };

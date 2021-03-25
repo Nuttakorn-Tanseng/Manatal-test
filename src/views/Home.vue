@@ -167,8 +167,9 @@ export default {
         });
     },
     selectSource(name) {
-      // console.log(this.headlines);
-      // this.headlines.article.filter((select) => select.source.name === name);
+      this.headlines.articles = this.headlines.articles.filter((select) => select.source.name === name);
+      console.log(this.headlines.articles);
+
     },
     checkloading() {
       if (this.headlines != null) {
