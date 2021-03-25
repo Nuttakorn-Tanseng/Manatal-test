@@ -44,10 +44,8 @@ export default {
     };
   },
   created() {
-    this.history = JSON.parse(localStorage.getItem("history"));
   },
   updated() {
-    this.history = JSON.parse(localStorage.getItem("history"));
   },
   methods: {
     homebtn() {
@@ -57,8 +55,7 @@ export default {
       });
     },
     clearHistory() {
-      localStorage.clear();
-      this.history = null;
+      
     },
   },
 };

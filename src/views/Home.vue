@@ -6,7 +6,7 @@
         <v-text-field v-model="text" label="Search" required @input="search">
         </v-text-field>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="1">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mt-2" icon v-bind="attrs" v-on="on"
@@ -21,6 +21,18 @@
             </v-list-item>
           </v-list>
         </v-menu>
+      </v-col>
+      <v-col cols="3">
+        <v-chip
+          v-if="selectedSource"
+          class="ma-2"
+          close
+          color="red"
+          text-color="white"
+          @click:close="resetHeadlines()"
+        >
+          {{selectedSource}}
+        </v-chip>
       </v-col>
     </v-row>
     <v-row class="mb-15" v-if="headlines">
@@ -117,7 +129,6 @@ export default {
     this.getHeadlines();
     this.getSources();
   },
-  computed: {},
   updated() {
     this.headlines = this.$store.state.headlines;
     this.checkloading();
@@ -143,15 +154,13 @@ export default {
       console.log("headline.title ", headline.title);
       console.log("date ", date);
 
-
       const data = {
         title: headline.title,
-        date: date
-      }
+        date: date,
+      };
 
       this.history.push(data);
 
-      localStorage.setItem("history", JSON.stringify(this.history));
 
       this.$router.push({
         name: "Read",
@@ -167,9 +176,11 @@ export default {
         });
     },
     selectSource(name) {
-      this.headlines.articles = this.headlines.articles.filter((select) => select.source.name === name);
+      this.selectedSource = name;
+      this.headlines.articles = this.headlines.articles.filter(
+        (select) => select.source.name === name
+      );
       console.log(this.headlines.articles);
-
     },
     checkloading() {
       if (this.headlines != null) {
@@ -180,6 +191,10 @@ export default {
       this.dialog = true;
       this.selectedIndex = index;
     },
+    resetHeadlines(){
+      this.selectedSource = false;
+      location.reload();
+    }
   },
 };
 </script>
